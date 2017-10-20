@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block left %}
+
+{% endblock %}
+
+
+{% block right %}
+
+<div class="panel panel-info">
+    <div class="panel-heading">SnippMan is ...</div>
+    <div class="panel-body">
+        A simple Snippets Manager with Web-interface for CRUD-operations,
+        <a href="https://highlightjs.org/">highlight.js</a> as code highlighter, and SQL as a search engine.
+        <a href="/about">Read more</a>.
+    </div>
+</div>
+
+
+<div class="panel panel-success">
+    <div class="panel-heading">Usage</div>
+    <div class="panel-body">
+        <ul>
+            <li>Just launch <strong>run.py</strong> and open <a href="http://127.0.0.1">http://127.0.0.1</a> in your browser. Try "run.py -h" to see options.</li>
+            <li><em>Note:</em> settings are loaded from <strong>config.py</strong> - feel free to customize them <a href="/settings/update">here</a>.</li>
+            <li>Start your work - <a href="/languages/add">add language</a> first and then you can <a href="/snippets/add">add snippets</a>.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="panel panel-danger">
+    <div class="panel-heading">Attention</div>
+    <div class="panel-body">
+        <p>I almost did not test my little buggy app, so:</p>
+        <ul>
+            <li>do not get surprized when you see it crashed with a scary <code>Traceback</code>;</li>
+            <li>I take no responsibility if your snippets leave to the valley of death...</li>
+        </ul>
+        <p>In the case of Emergency, please stay calm, go to <a href="https://github.com/nsavelyeva/snippman" target="_blank">github</a> and open an issue,
+            or contact me at <a href="https://www.linkedin.com/in/natallia-savelyeva-15407a12a/" target="_blank">LinkedIn</a>.
+        </p>
+    </div>
+</div>
+
+{% endblock %}

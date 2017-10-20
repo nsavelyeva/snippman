@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block left %}
+
+{% endblock %}
+
+
+{% block right %}
+    {% if pagination.total > 0 %}
+    <form id="delete_item_form" name="delete_item_form" action="/{{ table }}/delete/" method="POST">
+        <input id="item" name="item" type="hidden" value="">
+    </form>
+
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+        {% for field in fields %}
+            <th>{{field|title}}</th>
+        {% endfor %}
+            <th colspan="3">Operations</th>
+        </tr>
+        </thead>
+        {% for row in rows %}
+            <tr>
+            {% for field in fields %}
+                {% if field == "description" %}
+                <td><a href="javascript:show_snippet({{row['id']}})">{{row[field]}}</a><div id="snippet-{{row['id']}}"></div></td>
+                {% else %}
+                <td>{{row[field]}}</td>
+                {% endif %}
+            {% endfor %}
+            <td width="30"><a href="/{{ table }}/view/{{row['id']}}" class="btn btn-default btn-xs">View</a></td>
+            <td width="30"><a href="/{{ table }}/edit/{{row['id']}}" class="btn btn-default btn-xs">Edit</a></td>
+            <td width="30"><a href="javascript:document.getElementById('item').value={{row['id']}};document.getElementById('delete_item_form').submit();" class="btn btn-default btn-xs">Delete</a></td>
+            </tr>
+        {% endfor %}
+        <tfoot>
+        <tr>
+        {% for field in fields %}
+            <th>{{field|title}}</th>
+        {% endfor %}
+            <th colspan="3">Operations</th>
+        </tr>
+        </tfoot>
+    </table>
+    {% else %}
+    <div class="panel panel-info">
+        <div class="panel-heading">If no items found...</div>
+        <div class="panel-body">
+            <p>Maybe, it is the right time to add them?</p>
+            <p>Click on links to <a href="/languages/add">add language(s)</a> and <a href="/snippets/add">add snippets</a>.</p>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if pagination and pagination.total > pagination.per_page %}
+        {% from "_paginator.html" import render_pagination %}
+        {{ render_pagination(pagination) }}
+    {% endif %}
+{% endblock %}

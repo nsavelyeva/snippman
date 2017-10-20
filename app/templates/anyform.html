@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block left %}
+
+{% endblock %}
+
+
+{% block right %}
+
+{% if "tick_gdocs" in form.__dict__._fields.keys() %}
+<div class="panel panel-info">
+    <div class="panel-heading">Export Order</div>
+    <div class="panel-body">
+        <p>Export to a Google SpreadSheet and to a local file at once is possible:
+            <ol>
+                <li>First, data to Google SpreadSheet will be exported onto a separate sheet.</li>
+                <li>Then, data to the local file will be exported.</a></li>
+            </ol>
+        </p>
+        <p>Maximum number of backups is configurable inside <strong>snippman/conf/conf.py</strong> - set <strong>MAX_BACKUPS</strong> value.<br>
+           By default, <strong>MAX_BACKUPS = 10</strong> and this means you can have no more than 10 local files and 10 sheets in a Google Spreadsheet.</p>
+    </div>
+</div>
+{% endif %}
+
+{% from "_form.html" import render_field %}
+<div class="panel panel-info">
+    <div class="panel-heading">Please fill in the form</div>
+    <div class="panel-body">
+
+        <form method="POST" class="form-horizontal">
+            {% for field in form.__dict__._fields.keys() %}
+                {{ render_field(form[field]) }}
+            {% endfor %}
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <a class="btn btn-default" href="javascript:history.back()">Cancel</a>
+                    <button type="submit" class="btn btn-default">{{ submit_name }}</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+{% if "tick_gdocs" in form.__dict__._fields.keys() %}
+    {% include "_gdocs.html" %}
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block left %}
+
+{% endblock %}
+
+
+{% block right %}
+
+<div class="panel panel-info">
+    <div class="panel-heading">View Language #{{ language['id'] }}</div>
+    <div class="panel-body">
+
+        <form id="delete_item_form" name="delete_item_form" action="./../delete/" method="POST">
+            <input id="item" name="item" type="hidden" value="">
+        </form>
+
+        <table class="table table-striped">
+            <tr><th>Property</th><th>Value</th></tr>
+            <tr><td>Language name</td><td>{{language['name']}}</td></tr>
+        </table>
+
+        <p>
+            <a class="btn btn-default" href="./../edit/{{ language['id'] }}">Edit</a>
+            <a class="btn btn-default" href="javascript:document.getElementById('item').value={{ language['id'] }};document.getElementById('delete_item_form').submit();">Delete</a>
+            <a class="btn btn-default" href="javascript:history.back()">Back</a>
+        </p>
+
+     </div>
+</div>
+
+{% endblock %}
