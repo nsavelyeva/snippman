@@ -10,7 +10,7 @@ for folder in [app.config["UPLOAD_FOLDER"], "app/%s" % app.config["DOWNLOAD_FOLD
     conf.mkdir_if_not_exists(app.config["APP_FOLDER"], folder)
 
 
-app.secret_key = "In the fog an orange from eats mosqitoes with a fork"
+app.secret_key = "In the fog an orange frog eats mosquitoes with a fork"
 app.url_map.strict_slashes = False
 
 
