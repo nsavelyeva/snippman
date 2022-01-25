@@ -1,0 +1,85 @@
+name: veripy
+on:
+  push:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  pylint:
+    name: Pylint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: check
+        uses: nsavelyeva/veripy@master
+        with:
+          scan: lint
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  bandit:
+    name: Bandit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: check
+        uses: nsavelyeva/veripy@master
+        with:
+          scan: sec
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  radoncc:
+    name: Radon Cyclomatic Complexity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: check
+        uses: nsavelyeva/veripy@master
+        with:
+          scan: cc
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  radommi:
+    name: Radon Maintainability Index
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: check
+        uses: nsavelyeva/veripy@master
+        with:
+          scan: mi
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  hal:
+    name: Halstead metrics info
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: check
+        uses: nsavelyeva/veripy@master
+        with:
+          scan: hal
+          options: "-exclude=G104"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  info:
+    name: Raw info
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: check
+        uses: nsavelyeva/veripy@master
+        with:
+          scan: raw
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  covgate:
+    name: Unit tests with coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: check
+        uses: nsavelyeva/veripy@master
+        with:
+          scan: cov
+          token: ${{ secrets.GITHUB_TOKEN }}
