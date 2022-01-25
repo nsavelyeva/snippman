@@ -59,7 +59,6 @@ jobs:
         uses: nsavelyeva/veripy@master
         with:
           scan: hal
-          options: "-exclude=G104"
           token: ${{ secrets.GITHUB_TOKEN }}
 
   info:
