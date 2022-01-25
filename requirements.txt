@@ -1,5 +1,6 @@
 Flask
 Flask-SQLAlchemy
 Flask-WTF
+email_validator
 openpyxl
 google-api-python-client
