@@ -92,6 +92,7 @@ jobs:
             htmlcov
 
       - name: View files
+        if: always()
         run: |
           pwd
           ls -lR .
