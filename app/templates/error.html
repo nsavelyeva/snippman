@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block left %}
+
+{% endblock %}
+
+
+{% block right %}
+
+<div class="panel panel-danger">
+    <div class="panel-heading">Error {{ code }}</div>
+    <div class="panel-body">
+        <p>Ooops... {{ error }}.</p>
+        <p><a class="btn btn-default" href="javascript:history.back()">Go Back</a></p>
+    </div>
+</div>
+
+{% endblock %}

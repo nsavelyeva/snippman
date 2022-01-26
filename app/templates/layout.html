@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <title>SnippMan - a simple Snippets Manager</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Snippets Manager, a simple web-application to manage snippets">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/highlight-default.min.css') }}">
+    <!-- Replace three above lines by the following ones if you wish to use CSS-resources from CDN:
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    -->
+    <style>
+       .table tr:nth-child(1) { border-top: 1px solid #CCCCCC }
+       .table tr:nth-last-child(1) { border-bottom: 1px solid #CCCCCC }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="/">Home</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Snippets<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/snippets/list">List Snippets</a></li>
+                                        <li><a href="/snippets/add">Add New</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="/snippets/pop">Pop-10: Most Popular Snippets</a></li>
+                                        <li><a href="/snippets/fresh">Fresh-10: Recently Updated Snippets</a></li>
+                                        <li><a href="/snippets/new">New-10: Brand New Snippets</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="/import">Import</a></li>
+                                        <li><a href="/export">Export</a></li>
+                                        <li><a href="/downloads">Backups</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Languages<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/languages/list">List Languages</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="/languages/add">Add New</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <form class="navbar-form navbar-left" method="GET" action="/snippets/list">
+                                    <div class="form-group">
+                                        <input type="search" class="form-control" name="entry" placeholder="Search for snippets here" size="75">
+                                    </div>
+                                    <input class="btn btn-default" type="submit" value="Search">
+                                </form>
+                                <li><a href="/about">About</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible" role="alert" width="100%">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>{{ category | title }}!</strong> {{ message | safe}}
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="btn-group btn-group-justified" role="group" style="margin-bottom:1em">
+                    <a href="/snippets/add" class="btn btn-default">Add Snippet</a>
+                    <a href="/languages/add" class="btn btn-default">Add Language</a>
+                </div>
+
+                <div class="btn-group btn-group-justified" role="group" style="margin-bottom:1em">
+                    <a href="/import" class="btn btn-default">Import</a>
+                    <a href="/export" class="btn btn-default">Export</a>
+                    <a href="/settings" class="btn btn-default">Settings</a>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Statistics</div>
+                    <div id="statistics" class="panel-body"></div>
+                </div>
+                <ul class="list-group">
+                     <li class="list-group-item" style="background-color:#EEEEEE">Top-1&nbsp;Lists</li>
+                     <li id="pop-1" class="list-group-item"></li>
+                     <li id="new-1" class="list-group-item"></li>
+                     <li id="fresh-1" class="list-group-item"></li>
+                </ul>
+                {% block left %}
+                {% endblock %}
+            </div>
+            
+            <div class="col-md-9">
+                {% block right %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/highlight.min.js') }}"></script>
+    <!-- Replace three above lines by the following ones if you wish to use JS-resources from CDN:
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    -->
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/snippman.js') }}"></script>
+</body>
+</html>

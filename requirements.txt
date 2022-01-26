@@ -1,0 +1,5 @@
+Flask
+Flask-SQLAlchemy
+Flask-WTF
+openpyxl
+google-api-python-client

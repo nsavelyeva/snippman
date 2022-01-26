@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block left %}
+
+{% endblock %}
+
+
+{% block right %}
+
+{% if "tick_gdocs" in form.__dict__._fields.keys() %}
+<div class="panel panel-info">
+    <div class="panel-heading">Import Order</div>
+    <div class="panel-body">
+        <p>Import from a local file and from a Google SpreadSheet at once is possible:
+            <ol>
+                <li>First, data from the selected file will be imported.</li>
+                <li>Then, data from Google SpreadSheet will be imported.</a></li>
+            </ol>
+        </p>
+        <p>All snippets are imported one by one, and each is compared to the database:
+           if a snippet with similar description or body already exists, it will be skipped.</p>
+    </div>
+</div>
+{% endif %}
+
+{% from "_form.html" import render_field %}
+<div class="panel panel-info">
+    <div class="panel-heading">Please fill in the form</div>
+    <div class="panel-body">
+
+        <form method="POST" class="form-horizontal" enctype="multipart/form-data">
+            {% for field in form.__dict__._fields.keys() %}
+                {{ render_field(form[field]) }}
+            {% endfor %}
+            <div class="form-group">
+                 <div class="col-sm-offset-2 col-sm-10">
+                     <a class="btn btn-default" href="javascript:history.back()">Cancel</a>
+                     <button type="submit" class="btn btn-default">{{ submit_name }}</button>
+                 </div>
+           </div>
+        </form>
+
+     </div>
+</div>
+
+{% if "tick_gdocs" in form.__dict__._fields.keys() %}
+    {% include "_gdocs.html" %}
+{% endif %}
+
+{% endblock %}
