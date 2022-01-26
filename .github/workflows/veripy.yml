@@ -91,6 +91,11 @@ jobs:
             coverage.xml
             htmlcov
 
+      - name: View files
+        run: |
+          pwd
+          ls -lR .
+
       - name: Coverage report on GitHub Pages
         if: success() || failure()
         uses: JamesIves/github-pages-deploy-action@v4.2.2
