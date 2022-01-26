@@ -104,8 +104,9 @@ jobs:
         with:
           folder: htmlcov
           repository-name: nsavelyeva/nsavelyeva.github.io
-#          branch: master
+          branch: master
           target-folder: veripy/cov/${{ github.run_id }}/
           git-config-name: ${{ github.event.pusher.name }}
           git-config-email: ${{ github.event.pusher.email }}
           commit-message: Artifacts from https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          single-commit: false
