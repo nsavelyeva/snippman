@@ -81,3 +81,12 @@ jobs:
         with:
           scan: cov
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Archive artifacts
+        if: success() || failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: |
+            coverage.xml
+            htmlcov
