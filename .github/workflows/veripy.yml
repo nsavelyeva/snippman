@@ -100,12 +100,12 @@ jobs:
 
       - name: Coverage report on GitHub Pages
         if: success() || failure()
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@v4.2.2  #3.7.1
         with:
-          repository-name: nsavelyeva/nsavelyeva.github.io
-          branch: master
-          target-folder: veripy/cov/${{ github.run_id }}/
           folder: htmlcov
+          repository-name: nsavelyeva/nsavelyeva.github.io
+#          branch: master
+          target-folder: veripy/cov/${{ github.run_id }}/
           git-config-name: ${{ github.event.pusher.name }}
           git-config-email: ${{ github.event.pusher.email }}
           commit-message: Artifacts from https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
