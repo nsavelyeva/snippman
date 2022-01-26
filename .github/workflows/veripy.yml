@@ -95,7 +95,8 @@ jobs:
         if: always()
         run: |
           pwd
-          ls -lR .
+          ls -laR .
+          cat .gitignore
 
       - name: Coverage report on GitHub Pages
         if: success() || failure()
