@@ -75,7 +75,7 @@ jobs:
     name: Unit tests with coverage
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: check
         uses: nsavelyeva/veripy@master
         with:
@@ -95,6 +95,7 @@ jobs:
         if: success() || failure()
         uses: JamesIves/github-pages-deploy-action@v4.2.2
         with:
+          token: ${{ secrets.PAT }}
           folder: htmlcov
           repository-name: nsavelyeva/nsavelyeva.github.io
           branch: master
