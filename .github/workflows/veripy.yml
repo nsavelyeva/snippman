@@ -85,7 +85,6 @@ jobs:
       - name: View files
         if: always()
         run: |
-          rm -rf htmlcov/.gitignore
           pwd
           ls -laR .
 
