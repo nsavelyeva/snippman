@@ -82,6 +82,13 @@ jobs:
           scan: cov
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: View files
+        if: always()
+        run: |
+          rm -rf htmlcov/.gitignore
+          pwd
+          ls -laR .
+
       - name: Archive artifacts
         if: success() || failure()
         uses: actions/upload-artifact@v2
@@ -91,16 +98,9 @@ jobs:
             coverage.xml
             htmlcov
 
-      - name: View files
-        if: always()
-        run: |
-          pwd
-          ls -laR .
-          cat .gitignore
-
       - name: Coverage report on GitHub Pages
         if: success() || failure()
-        uses: JamesIves/github-pages-deploy-action@v4.2.2  #3.7.1
+        uses: JamesIves/github-pages-deploy-action@v4.2.2
         with:
           folder: htmlcov
           repository-name: nsavelyeva/nsavelyeva.github.io
