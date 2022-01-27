@@ -82,12 +82,6 @@ jobs:
           scan: cov
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: View files
-        if: always()
-        run: |
-          pwd
-          ls -laR .
-
       - name: Archive artifacts
         if: success() || failure()
         uses: actions/upload-artifact@v2
