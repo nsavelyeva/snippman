@@ -1,0 +1,106 @@
+name: veripy
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  pylint:
+    name: Pylint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: check
+        uses: nsavelyeva/veripy@master
+        with:
+          scan: lint
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  bandit:
+    name: Bandit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: check
+        uses: nsavelyeva/veripy@master
+        with:
+          scan: sec
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  radoncc:
+    name: Radon Cyclomatic Complexity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: check
+        uses: nsavelyeva/veripy@master
+        with:
+          scan: cc
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  radommi:
+    name: Radon Maintainability Index
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: check
+        uses: nsavelyeva/veripy@master
+        with:
+          scan: mi
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  hal:
+    name: Halstead metrics info
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: check
+        uses: nsavelyeva/veripy@master
+        with:
+          scan: hal
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  info:
+    name: Raw info
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: check
+        uses: nsavelyeva/veripy@master
+        with:
+          scan: raw
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  covgate:
+    name: Unit tests with coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: check
+        uses: nsavelyeva/veripy@master
+        with:
+          scan: cov
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Archive artifacts
+        if: success() || failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: |
+            coverage.xml
+            htmlcov
+
+      - name: Coverage report on GitHub Pages
+        if: success() || failure()
+        uses: JamesIves/github-pages-deploy-action@v4.2.2
+        with:
+          token: ${{ secrets.PAT }}
+          folder: htmlcov
+          repository-name: nsavelyeva/nsavelyeva.github.io
+          branch: master
+          target-folder: veripy/cov/${{ github.run_id }}/
+          git-config-name: ${{ github.event.pusher.name }}
+          git-config-email: ${{ github.event.pusher.email }}
+          commit-message: Artifacts from https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          single-commit: false

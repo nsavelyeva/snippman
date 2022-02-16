@@ -2,4 +2,6 @@ Flask
 Flask-SQLAlchemy
 Flask-WTF
 openpyxl
+email_validator
+oauth2client
 google-api-python-client
