@@ -79,9 +79,10 @@ jobs:
 
       - name: Install GCC
         run: |
-          sudo apt update -y
-          sudo apt install -y build-essential
+#          sudo apt update -y
+#          sudo apt install -y gcc
           gcc --version
+          sudo ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future pip install --upgrade numpy
 
 #      - name: Set up GCC
 #        uses: egor-tensin/setup-gcc@v1
