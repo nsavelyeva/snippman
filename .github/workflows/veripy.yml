@@ -76,6 +76,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: install gcc
+
       - name: check
         uses: nsavelyeva/veripy@master
         with:

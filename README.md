@@ -26,9 +26,11 @@ Attention:
  https://www.linkedin.com/in/natallia-savelyeva/.
 
 Usage:
- * Just launch run.py and open http://127.0.0.1 in your browser. Try `run.py -h` to see options.
+ * Just launch `run.py`. Try `run.py -h` to see options.
+ * Or, build a docker image `docker build -t snippman .` and start a docker container `docker run -p:8080:80 snippman`.
+ * Open http://127.0.0.1 in your browser.
  * Note: settings are loaded from `config.py` - feel free to customize them at http://../settings/update.
- * Start your work - add language first, and then you can add snippets.
+ * Start your work - add a language first, and then you can add snippets.
 
 Features:
  * Search for snippets through `SQLite` database by a string entry.
@@ -50,3 +52,10 @@ Features:
  * Export snippets from a local SQLite database to Google SpreadSheets.
  * Web interface to manage application settings.
  * Support options to launch SnippMan from command line.
+
+Development:
+ * Run unit tests: `docker run snippman /snippman/tests/test_all.py`
+
+TODOs:
+ * Migrate Pagination v2 -> v3: https://flask-sqlalchemy.palletsprojects.com/en/2.x/api/ -> https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/api/
+ * Enable PR checks
