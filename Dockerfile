@@ -1,21 +1,12 @@
-# syntax=docker/dockerfile:1
-
-FROM amd64/ubuntu:22.04
-
-ENV URL=http://localhost:8080/
-ENV INTERVAL=2
-ENV DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update \
-  && apt-get install -y python3-pip python3-dev \
-  && cd /usr/local/bin \
-  && ln -s /usr/bin/python3 python \
-  && pip3 --no-cache-dir install --upgrade pip \
-  && rm -rf /var/lib/apt/lists/*
+FROM python:3.10.8-alpine3.15
 
 WORKDIR /snippman
 COPY . .
-RUN pip3 install -r requirements.txt
+
+RUN apk add gcc g++
+RUN python -m pip install --prefix=/usr/local --no-cache-dir --upgrade pip \
+    && ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future pip install --upgrade numpy \
+    && pip install --prefix=/usr/local --no-cache-dir -r requirements.txt
 
 CMD ["/snippman/run.py"]
-ENTRYPOINT ["python3"]
+ENTRYPOINT ["python"]
