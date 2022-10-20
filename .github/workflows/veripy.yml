@@ -92,9 +92,6 @@ jobs:
             coverage.xml
             htmlcov
 
-      - name: Install Git
-        run: apk add git
-
       - name: Coverage report on GitHub Pages
         if: success() || failure()
         uses: JamesIves/github-pages-deploy-action@v4.2.2
