@@ -14,7 +14,7 @@ class TestLanguages(flask_unittest.ClientTestCase):
     def test_add_language(self, client):
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
         response = client.post('/languages/add', headers=headers, data='name=abc')
-        assert response.status_code == 200
+        assert response.status_code in [200, 302]
 
     def test_list_languages(self, client):
         response = client.get('/languages/list')
@@ -30,16 +30,14 @@ class TestLanguages(flask_unittest.ClientTestCase):
 
 
 class TestSnippets(flask_unittest.ClientTestCase):
-    # Assign the flask app object otherwise you will get
-    # "property `app` must be assigned in ClientTestCase":
     app = app
 
     def test_add_snippet(self, client):
-        # at least 1 language should exist - this is done by TestLanguages.test_add_language() test
-        data = 'language=1&description=abc-desc&snippet=foo+bar%0D%0Abaz&comment=abc+-+comment'
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+        client.post('/languages/add', headers=headers, data='name=abc')
+        data = 'language=1&description=abc-desc&snippet=foo+bar%0D%0Abaz&comment=abc+-+comment'
         response = client.post('/snippets/add', headers=headers, data=data)
-        assert response.status_code == 200
+        assert response.status_code in [200, 302]
 
     def test_list_snippets(self, client):
         response = client.get('/snippets/list')
@@ -53,6 +51,7 @@ class TestSnippets(flask_unittest.ClientTestCase):
         response = client.get('/snippets/view/-1')
         assert response.status_code == 404
 
+
 class TestAjax(flask_unittest.ClientTestCase):
     app = app
 
@@ -65,9 +64,11 @@ class TestAjax(flask_unittest.ClientTestCase):
 
 # Pass the flask app to suite
 suite = flask_unittest.LiveTestSuite(app)
+
 # Add the suites
 suite.addTest(unittest.makeSuite(TestSnippets))
 suite.addTest(unittest.makeSuite(TestLanguages))
 suite.addTest(unittest.makeSuite(TestAjax))
+
 # Run the suite
 unittest.TextTestRunner(verbosity=2).run(suite)
