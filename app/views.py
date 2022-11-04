@@ -31,7 +31,7 @@ def backups():
 @app.route("/_statistics")
 def get_statistics():
     data = db_queries.get_statistics()
-    return jsonify(result=data)
+    return jsonify(result=dict(data))
 
 
 @app.route("/_snippet_body")
